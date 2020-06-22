@@ -386,7 +386,6 @@ button {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 3rem;
-    margin-top: 1rem;
 }
 
 .table {
@@ -745,6 +744,15 @@ button {
         display: none;
     }
 
+    .table-container {
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+
+    .table {
+        width: 100%;
+    }
+
     /* Profiles Page */
     .profiles {
         grid-template-columns: 1fr;
@@ -756,36 +764,78 @@ button {
     } */
 
     /* Profile Page */
-
-    .profile-top img {
-        width: 200px;
-        margin: auto;
-    }
-
     .profile-grid {
         grid-template-areas:
             "top"
             "about"
             "exp"
             "edu"
-            "github";
+            "github"
+            "posts";
+        grid-template-columns: 1fr;
+    }
+
+    .profile-top {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        border-radius: 6px;
+    }
+
+    .profile-top .right-div {
+        text-align: center;
+    }
+
+    .follow-div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-top img {
+        width: 140px;
+        height: 140px;
+        margin: auto;
+    }
+
+    .mr-6 {
+        margin-right: 0 !important;
     }
 
     .profile-about .skills {
         flex-direction: column;
     }
 
+    .repo ul {
+        margin-left: 0.3rem;
+    }
+
     .dash-buttons a {
         display: block;
         width: 100%;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.5rem;
     }
 
     .post {
         grid-template-columns: 1fr;
+        grid-gap: 1rem;
+        padding: 1.5rem 2rem;
     }
-    .post a,
-    .post button {
-        padding: 0.3rem 0.4rem;
+
+    .post img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .post .likes-count {
+        top: -28%;
+        right: -10%;
+    }
+
+    .post .btn {
+        padding: 0.4rem 0.9rem;
+        margin-right: 0.5rem !important;
     }
 }

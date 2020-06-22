@@ -10,7 +10,7 @@ const Experiences = ({ experiences, deleteExperience }) => {
     const experiencesDOM = experiences.map((exp) => (
         <tr key={exp._id}>
             <td>{exp.company}</td>
-            <td className="hide-sm">{exp.title}</td>
+            <td>{exp.title}</td>
             <td className="hide-sm">
                 <Moment format="YYYY/MM/DD">{moment.utc(exp.from)}</Moment> -{" "}
                 {exp.to === null ? (
@@ -40,7 +40,7 @@ const Experiences = ({ experiences, deleteExperience }) => {
                 <thead>
                     <tr>
                         <th>Company</th>
-                        <th className="hide-sm">Title</th>
+                        <th>Title</th>
                         <th className="hide-sm">Years</th>
                         <th></th>
                     </tr>

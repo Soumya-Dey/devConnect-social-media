@@ -6,18 +6,18 @@ import PropTypes from "prop-types";
 const DashboardActions = ({ auth: { user } }) => {
     return (
         <div className="dash-buttons">
-            <Link to={`/profile/${user._id}`} className="btn btn-primary mr">
+            <Link to={`/profile/${user._id}`} className="btn btn-primary mr mb">
                 <i className="fas fa-user-circle"></i> &nbsp;View Profile
             </Link>
-            <Link to="/create-profile" className="btn btn-white mr">
+            <Link to="/create-profile" className="btn btn-white mr mb">
                 <i className="fas fa-user-circle text-primary"></i> &nbsp;
                 <span className="text-dark">Edit Profile</span>
             </Link>
-            <Link to="/add-experience" className="btn btn-white mr">
+            <Link to="/add-experience" className="btn btn-white mr mb">
                 <i className="fab fa-black-tie text-primary"></i> &nbsp;
                 <span className="text-dark">Add Experience</span>
             </Link>
-            <Link to="/add-education" className="btn btn-white mr">
+            <Link to="/add-education" className="btn btn-white mr mb">
                 <i className="fas fa-graduation-cap text-primary"></i> &nbsp;
                 <span className="text-dark">Add Education</span>
             </Link>
