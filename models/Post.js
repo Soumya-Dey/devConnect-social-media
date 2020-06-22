@@ -23,6 +23,14 @@ const PostSchema = mongoose.Schema({
             },
         },
     ],
+    dislikes: [
+        {
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        },
+    ],
     comments: [
         {
             user: {

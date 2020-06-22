@@ -7,6 +7,7 @@ import {
     GET_GITHUB_REPOS,
     NO_REPOS,
     FOLLOW_ERROR,
+    UPDATE_FOLLOWERS,
 } from "../actions/types";
 
 const initialState = {
@@ -42,6 +43,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 repos: [],
+                loading: false,
+            };
+        case UPDATE_FOLLOWERS:
+            return {
+                ...state,
+                profile: { ...state.profile, followers: action.payload },
                 loading: false,
             };
         case PROFILE_ERROR:

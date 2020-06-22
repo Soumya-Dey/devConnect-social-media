@@ -5,6 +5,7 @@ import {
     GET_POSTS,
     POSTS_ERROR,
     UPDATE_LIKES,
+    UPDATE_DISLIKES,
     DELETE_POST,
     ADD_POST,
     GET_POST,
@@ -116,6 +117,52 @@ export const removeLike = (postId) => async (dispatch) => {
         dispatch({
             type: UPDATE_LIKES,
             payload: { postId: postId, likes: res.data },
+        });
+    } catch (error) {
+        // send the error data to reducer
+        dispatch({
+            type: POSTS_ERROR,
+            payload: {
+                msg: error.response.statusText,
+                status: error.response.status,
+            },
+        });
+    }
+};
+
+// for adding a dislike to post
+export const addDislike = (postId) => async (dispatch) => {
+    try {
+        // add the dislike
+        const res = await axios.put(`/api/posts/dislike/${postId}`);
+
+        // send the dislikes array to reducer
+        dispatch({
+            type: UPDATE_DISLIKES,
+            payload: { postId: postId, dislikes: res.data },
+        });
+    } catch (error) {
+        // send the error data to reducer
+        dispatch({
+            type: POSTS_ERROR,
+            payload: {
+                msg: error.response.statusText,
+                status: error.response.status,
+            },
+        });
+    }
+};
+
+// for removing a like from post
+export const removeDislike = (postId) => async (dispatch) => {
+    try {
+        // remove the dislike
+        const res = await axios.put(`/api/posts/undislike/${postId}`);
+
+        // send the dislikes array to reducer
+        dispatch({
+            type: UPDATE_DISLIKES,
+            payload: { postId: postId, dislikes: res.data },
         });
     } catch (error) {
         // send the error data to reducer

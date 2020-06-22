@@ -11,6 +11,7 @@ import {
     GET_GITHUB_REPOS,
     NO_REPOS,
     FOLLOW_ERROR,
+    UPDATE_FOLLOWERS,
 } from "../actions/types";
 
 // for getting current user's profile
@@ -162,7 +163,7 @@ export const addFollowerFollowing = (userToFollowId) => async (dispatch) => {
 
         // send the profile data to the reducer
         dispatch({
-            type: UPDATE_PROFILE,
+            type: UPDATE_FOLLOWERS,
             payload: res.data,
         });
 
@@ -188,7 +189,7 @@ export const removeFollowerFollowing = (userToUnfollowId) => async (
 
         // send the profile data to the reducer
         dispatch({
-            type: UPDATE_PROFILE,
+            type: UPDATE_FOLLOWERS,
             payload: res.data,
         });
 

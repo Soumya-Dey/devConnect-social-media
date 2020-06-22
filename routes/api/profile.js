@@ -219,7 +219,7 @@ router.put(
             await profileToFollow.save();
             await currentProfile.save();
 
-            res.json(profileToFollow);
+            res.json(profileToFollow.followers);
         } catch (error) {
             console.log(error);
             res.status(500).send("server error");
@@ -280,7 +280,7 @@ router.delete(
             await profileToUnfollow.save();
             await currentProfile.save();
 
-            res.json(profileToUnfollow);
+            res.json(profileToUnfollow.followers);
         } catch (error) {
             console.log(error);
             res.status(500).send("server error");

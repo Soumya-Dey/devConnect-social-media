@@ -206,6 +206,97 @@ router.put(
     }
 );
 
+// @route PUT api/posts/dislike/:postId
+// @desc dislike a specific post
+// @access Private
+router.put(
+    "/dislike/:postId",
+    [authToken, checkId("postId")],
+    async (req, res) => {
+        try {
+            const post = await Post.findById(req.params.postId);
+
+            if (!post) {
+                return res.status(400).json({
+                    errors: [{ msg: "No post found" }],
+                });
+            }
+
+            // check if the user already liked the post
+            if (
+                post.likes.filter(
+                    (like) => like.user.toString() === req.user.id
+                ).length > 0
+            ) {
+                return res.status(400).json({
+                    errors: [{ msg: "User liked the post already!" }],
+                });
+            }
+
+            // check if the user already disliked the post
+            if (
+                post.dislikes.filter(
+                    (dislike) => dislike.user.toString() === req.user.id
+                ).length > 0
+            ) {
+                return res.status(400).json({
+                    errors: [{ msg: "User disliked the post already!" }],
+                });
+            }
+
+            // add the user to the front of the likes array
+            post.dislikes.unshift({ user: req.user.id });
+
+            await post.save();
+
+            res.json(post.dislikes);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("server error");
+        }
+    }
+);
+
+// @route PUT api/posts/undislike/:postId
+// @desc undislike a specific post
+// @access Private
+router.put(
+    "/undislike/:postId",
+    [authToken, checkId("postId")],
+    async (req, res) => {
+        try {
+            const post = await Post.findById(req.params.postId);
+
+            if (!post) {
+                return res.status(400).json({
+                    errors: [{ msg: "No post found" }],
+                });
+            }
+
+            const indexToRemove = post.dislikes
+                .map((dislike) => dislike.user.toString())
+                .indexOf(req.user.id);
+
+            // check wheather the post have been disliked yet
+            if (indexToRemove === -1) {
+                return res.status(400).json({
+                    errors: [{ msg: "Post hasn't been disliked yet!" }],
+                });
+            }
+
+            // remove the user from the likes array
+            post.dislikes.splice(indexToRemove, 1);
+
+            await post.save();
+
+            res.json(post.dislikes);
+        } catch (error) {
+            console.log(error);
+            res.status(500).send("server error");
+        }
+    }
+);
+
 // @route POST api/posts/comment/:postId
 // @desc comment on a post
 // @access Private

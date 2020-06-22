@@ -5,13 +5,21 @@ import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import moment from "moment";
 
-import { addLike, removeLike, deletePost } from "../../actions/post";
+import {
+    addLike,
+    removeLike,
+    addDislike,
+    removeDislike,
+    deletePost,
+} from "../../actions/post";
 
 const PostItem = ({
     auth,
-    post: { _id, user, name, avatar, text, date, likes, comments },
+    post: { _id, user, name, avatar, text, date, likes, dislikes, comments },
     addLike,
     removeLike,
+    addDislike,
+    removeDislike,
     deletePost,
     margin,
     showAction,
@@ -21,8 +29,17 @@ const PostItem = ({
         color: "#333",
         border: "#ccc solid 1px",
     });
+    const [dislikeStyle, setDislikeStyle] = useState({
+        backgroundColor: "#f5f5f5",
+        color: "#333",
+        border: "#ccc solid 1px",
+    });
 
     const [CountStyle, setCountStyle] = useState({
+        color: "#333",
+        border: "#ccc solid 1px",
+    });
+    const [CountStyle2, setCountStyle2] = useState({
         color: "#333",
         border: "#ccc solid 1px",
     });
@@ -54,7 +71,35 @@ const PostItem = ({
                 border: "#ccc solid 1px",
             });
         }
-    }, [likes, auth.user._id]);
+
+        // if user dislikes the post then change the color of the btn
+        if (
+            dislikes.filter(
+                (dislike) =>
+                    dislike.user.toString() === auth.user._id.toString()
+            ).length > 0
+        ) {
+            setDislikeStyle({
+                backgroundColor: "#dc3545",
+                color: "#fff",
+                border: "none",
+            });
+            setCountStyle2({
+                color: "#dc3545",
+                border: "#dc3545 solid 1px",
+            });
+        } else {
+            setDislikeStyle({
+                backgroundColor: "#f5f5f5",
+                color: "#333",
+                border: "#ccc solid 1px",
+            });
+            setCountStyle2({
+                color: "#333",
+                border: "#ccc solid 1px",
+            });
+        }
+    }, [likes, dislikes, auth.user._id]);
 
     return (
         <div className={`post bg-white p-custom-2 my-${margin}`}>
@@ -81,6 +126,13 @@ const PostItem = ({
                             type="button"
                             style={likeStyle}
                             className="btn btn-light mr"
+                            disabled={
+                                dislikes.filter(
+                                    (dislike) =>
+                                        dislike.user.toString() ===
+                                        auth.user._id.toString()
+                                ).length > 0
+                            }
                             onClick={(e) =>
                                 // if the user hasn't liked the post
                                 // then add a like to the post
@@ -104,13 +156,40 @@ const PostItem = ({
                                 </span>
                             )}
                         </button>
-                        {/* <button
-                type="button"
-                className="btn btn-light mr"
-                onClick={(e) => removeLike(_id)}
-            >
-                <i className="fas fa-thumbs-down"></i>
-            </button> */}
+                        <button
+                            type="button"
+                            style={dislikeStyle}
+                            className="btn btn-light mr"
+                            disabled={
+                                likes.filter(
+                                    (like) =>
+                                        like.user.toString() ===
+                                        auth.user._id.toString()
+                                ).length > 0
+                            }
+                            onClick={(e) =>
+                                // if the user hasn't liked the post
+                                // then add a like to the post
+                                // otherwise remove the post
+                                dislikes.filter(
+                                    (dislike) =>
+                                        dislike.user.toString() ===
+                                        auth.user._id.toString()
+                                ).length > 0
+                                    ? removeDislike(_id)
+                                    : addDislike(_id)
+                            }
+                        >
+                            <i className="fas fa-thumbs-down"></i>
+                            {dislikes.length > 0 && (
+                                <span
+                                    className="likes-count"
+                                    style={CountStyle2}
+                                >
+                                    {dislikes.length}
+                                </span>
+                            )}
+                        </button>
 
                         <Link
                             to={`/posts/${_id}`}
@@ -148,6 +227,8 @@ PostItem.propTypes = {
     auth: PropTypes.object.isRequired,
     addLike: PropTypes.func.isRequired,
     removeLike: PropTypes.func.isRequired,
+    addDislike: PropTypes.func.isRequired,
+    removeDislike: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
     margin: PropTypes.number,
 };
@@ -160,4 +241,6 @@ export default connect(mapStateToProps, {
     addLike,
     removeLike,
     deletePost,
+    addDislike,
+    removeDislike,
 })(PostItem);
