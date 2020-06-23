@@ -1,5 +1,6 @@
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const config = require("config");
+// const config = require("config");
 
 const authToken = (req, res, next) => {
     // get the token from the request header
@@ -11,7 +12,8 @@ const authToken = (req, res, next) => {
         // verify the data from the token
         const decodedPayload = jwt.verify(
             req.header("x-auth-token"),
-            config.get("jwtSecret")
+            process.env.JWT_SECRET
+            // config.get("jwtSecret")
         );
 
         // set req.user to current user in the token data
