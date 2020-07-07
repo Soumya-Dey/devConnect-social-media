@@ -107,6 +107,56 @@ export const login = ({ email, password }) => async (dispatch) => {
     }
 };
 
+// for sending reset link to user
+export const forgotPassword = (email) => async (dispatch) => {
+    try {
+        // send email
+        await axios.post("/api/auth/forgot", JSON.stringify({ email }), {
+            headers: { "Content-Type": "application/json" },
+        });
+
+        // send the token to the reducer
+        dispatch(setAlert(`Email sent to ${email} with reset link`, "success"));
+    } catch (error) {
+        const errArr = error.response.data.errors;
+
+        // send the errors to the alert reducer
+        if (errArr) {
+            errArr.forEach((errItem) =>
+                dispatch(setAlert(errItem.msg, "danger"))
+            );
+        }
+    }
+};
+
+// for reseting user password
+export const resetPassword = (password, resetPasswordId) => async (
+    dispatch
+) => {
+    try {
+        // reset password
+        await axios.post(
+            `/api/auth/reset/${resetPasswordId}`,
+            JSON.stringify({ password }),
+            { headers: { "Content-Type": "application/json" } }
+        );
+
+        // send the token to the reducer
+        dispatch(
+            setAlert(`Password changed successfully, Login again`, "success")
+        );
+    } catch (error) {
+        const errArr = error.response.data.errors;
+
+        // send the errors to the alert reducer
+        if (errArr) {
+            errArr.forEach((errItem) =>
+                dispatch(setAlert(errItem.msg, "danger"))
+            );
+        }
+    }
+};
+
 // for loggin out user & clear profile
 export const logout = () => (dispatch) => {
     dispatch({ type: CLEAR_PROFILE });

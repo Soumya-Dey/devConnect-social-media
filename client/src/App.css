@@ -89,6 +89,10 @@ img {
     font-weight: 600;
 }
 
+.x-small-light {
+    font-size: 0.9rem;
+}
+
 .lead {
     font-size: 1.2rem;
     margin-bottom: 2.4rem;

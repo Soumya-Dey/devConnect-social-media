@@ -1,17 +1,18 @@
 import React, { Fragment, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { login } from "../../actions/auth";
+import { setAlert } from "../../actions/alert";
+import { resetPassword } from "../../actions/auth";
 
-const Login = (props) => {
+const Reset = ({ resetPassword, setAlert, match }) => {
     const [formData, setFormData] = useState({
-        email: "",
         password: "",
+        password2: "",
     });
 
-    const { email, password } = formData;
+    const { password, password2 } = formData;
 
     // for email -> {prevData, email: value}
     // for password -> {prevData, password: value}
@@ -21,30 +22,19 @@ const Login = (props) => {
     const onSubmit = async (event) => {
         event.preventDefault();
 
-        props.login({ email, password });
+        if (password !== password2) setAlert("Passwords dont match", "danger");
+        else {
+            resetPassword(password, match.params.resetPasswordId);
+        }
     };
-
-    if (props.isAuthenticated) {
-        return <Redirect to="/dashboard" />;
-    }
 
     return (
         <Fragment>
-            <h1 className="large text-primary">Sign In</h1>
+            <h1 className="large text-primary">Reset Password</h1>
             <p className="lead">
-                <i className="fas fa-user"></i> &nbsp;Sign into Your Account
+                <i className="fas fa-user"></i> &nbsp;Create New Password
             </p>
             <form className="form" onSubmit={(event) => onSubmit(event)}>
-                <div className="form-group">
-                    <input
-                        type="email"
-                        placeholder="Email Address"
-                        name="email"
-                        value={email}
-                        onChange={(event) => onChange(event)}
-                        required
-                    />
-                </div>
                 <div className="form-group">
                     <input
                         type="password"
@@ -52,31 +42,38 @@ const Login = (props) => {
                         name="password"
                         value={password}
                         onChange={(event) => onChange(event)}
+                        minLength="6"
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="password"
+                        placeholder="Confirm Password"
+                        name="password2"
+                        value={password2}
+                        onChange={(event) => onChange(event)}
+                        minLength="6"
                     />
                 </div>
                 <input
                     type="submit"
                     className="btn btn-primary"
-                    value="Login"
+                    value="Reset"
                 />
             </form>
             <p className="my-1">
                 Don't have an account? <Link to="/register">Sign Up</Link>
             </p>
-            <p className="my-1 x-small-light">
-                <Link to="/forgot">Forgotten Password</Link>
+            <p className="my-1">
+                <Link to="/login">Login</Link> instead
             </p>
         </Fragment>
     );
 };
 
-Login.propTypes = {
-    login: PropTypes.func.isRequired,
-    isAuthenticated: PropTypes.bool,
+Reset.propTypes = {
+    setAlert: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-    isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { login })(Login);
+export default connect(null, { setAlert, resetPassword })(Reset);

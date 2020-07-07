@@ -7,6 +7,8 @@ import Navbar from "./components/layouts/Navbar";
 import Landing from "./components/layouts/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import Forgot from "./components/auth/Forgot";
+import Reset from "./components/auth/Reset";
 import Alert from "./components/layouts/Alert";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateOrUpdateProfile from "./components/profile-forms/CreateOrUpdateProfile";
@@ -87,6 +89,16 @@ const App = () => {
                                     exact
                                     path="/posts/:postId"
                                     component={Post}
+                                />
+                                <Route
+                                    exact
+                                    path="/forgot"
+                                    component={Forgot}
+                                />
+                                <Route
+                                    exact
+                                    path="/reset/:resetPasswordId"
+                                    component={Reset}
                                 />
                                 <Route component={NotFound} />
                             </Switch>

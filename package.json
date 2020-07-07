@@ -20,7 +20,9 @@
         "express-validator": "^6.5.0",
         "gravatar": "^1.8.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.9.16"
+        "mongoose": "^5.9.16",
+        "nodemailer": "^6.4.10",
+        "uuid": "^8.2.0"
     },
     "devDependencies": {
         "concurrently": "^5.2.0"
