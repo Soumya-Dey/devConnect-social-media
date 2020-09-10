@@ -52,6 +52,7 @@ router.post(
 
         // destructure the fields from req.body
         const {
+            avatar,
             company,
             location,
             website,
@@ -93,6 +94,10 @@ router.post(
                 { $set: tempProfile },
                 { new: true, upsert: true }
             );
+
+            if (avatar) {
+                await User.findByIdAndUpdate(req.user.id, { avatar });
+            }
 
             res.json(profile);
         } catch (error) {

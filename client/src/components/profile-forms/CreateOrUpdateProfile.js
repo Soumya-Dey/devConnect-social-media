@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
 import { createProfile, getCurrentProfile } from "../../actions/profile";
+import { useStorage } from "../../hooks/useStorage";
+import ProgressBar from "../layouts/ProgressBar";
 
 const initialState = {
     company: "",
@@ -26,9 +28,13 @@ const CreateOrUpdateProfile = ({
     getCurrentProfile,
     history,
 }) => {
+    const [file, setFile] = useState(null);
+
     const [formData, setFormData] = useState(initialState);
 
     const [showSocialInputs, toggleSocialInputs] = useState(false);
+
+    const { url, progress } = useStorage(file);
 
     useEffect(() => {
         if (!profile) getCurrentProfile();
@@ -53,7 +59,7 @@ const CreateOrUpdateProfile = ({
             // presetting the form values
             setFormData(profileData);
         }
-    }, [loading, getCurrentProfile, profile]);
+    }, [loading, getCurrentProfile, profile, url]);
 
     const {
         company,
@@ -70,6 +76,20 @@ const CreateOrUpdateProfile = ({
         instagram,
     } = formData;
 
+    const types = ["image/png", "image/jpeg", "image/jpg"];
+
+    const selectAvatar = (event) => {
+        let selectedFile = event.target.files[0];
+
+        if (selectedFile) {
+            if (types.includes(selectedFile.type)) {
+                setFile(selectedFile);
+            } else {
+                setFile(null);
+            }
+        }
+    };
+
     // for email -> {prevData, email: value}
     // for password -> {prevData, password: value}
     const onChange = (event) =>
@@ -78,7 +98,12 @@ const CreateOrUpdateProfile = ({
     const onSubmit = (event) => {
         event.preventDefault();
 
-        createProfile(formData, history, profile !== null ? true : false);
+        let submitFormData;
+        url
+            ? (submitFormData = { ...formData, avatar: url })
+            : (submitFormData = formData);
+
+        createProfile(submitFormData, history, profile !== null ? true : false);
     };
 
     return (
@@ -94,11 +119,22 @@ const CreateOrUpdateProfile = ({
                 to make your profile stand out
             </p>
 
-            <p className="mb">
-                <a
+            <div className="mb avatar-edit-cont">
+                <label className="avatar-input btn btn-white">
+                    <input type="file" onChange={selectAvatar} />
+                    <span>Change Profile Photo</span>
+                </label>
+                {file && +progress < 100 && <ProgressBar progress={progress} />}
+                {file && +progress === 100 && (
+                    <div className="file-name">
+                        <p>{file.name}</p>
+                    </div>
+                )}
+
+                {/* <a
                     href="https://en.gravatar.com/site/login"
                     target="_blank"
-                    rel="noopener noreferrer"
+                    rel="noopener nore ferrer"
                     className="btn btn-white"
                 >
                     Edit Gravatar Image
@@ -106,8 +142,8 @@ const CreateOrUpdateProfile = ({
                 <small>
                     &nbsp;* Update the image of the Gravatar account with the
                     same email as your devConnect account's email
-                </small>
-            </p>
+                </small> */}
+            </div>
             <small>* = required field</small>
             <form className="form" onSubmit={(e) => onSubmit(e)}>
                 <div className="form-group">

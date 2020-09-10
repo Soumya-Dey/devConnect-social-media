@@ -1,10 +1,10 @@
 /* Global Styles */
 :root {
-    --primary-color: #17a2b8;
+    --primary-color: #41b883;
     --dark-color: #343a40;
     --light-color: #f5f5f5;
     --danger-color: #dc3545;
-    --success-color: #28a745;
+    --success-color: #41b883;
 }
 
 * {
@@ -224,13 +224,26 @@ img {
     transition: all 0.2s ease-in;
 }
 
-.alert {
+/* .alert {
     padding: 0.8rem 1.2rem;
     margin: 1rem 0;
     opacity: 0.9;
     background: var(--light-color);
     color: #333;
     border-radius: 4px;
+    transition: all 0.2s ease;
+} */
+.alert {
+    position: fixed;
+    right: 4em;
+    max-width: 40%;
+    padding: 0.6rem 1rem;
+    font-size: 0.95em;
+    opacity: 0.8;
+    background: var(--light-color);
+    color: #333;
+    border-radius: 4px;
+    word-wrap: normal;
     transition: all 0.2s ease;
 }
 
@@ -763,6 +776,52 @@ button {
     margin-bottom: 1.5rem;
 }
 
+.avatar-input {
+    margin-right: 24px;
+}
+
+.avatar-input input {
+    height: 0;
+    width: 0;
+    opacity: 0;
+}
+
+.avatar-edit-cont {
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar-cont {
+    width: 400px;
+    height: 8px;
+    position: relative;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.progress-bar {
+    width: 0;
+    height: 100%;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    transition: all 0.2s ease;
+}
+
+.file-name {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 0.25em 1.2em;
+    border-radius: 24px;
+}
+
+.file-name p {
+    font-size: 0.85em;
+    word-wrap: break-word;
+}
+
 /* Mobile Styles */
 @media (max-width: 700px) {
     .container {
@@ -899,5 +958,20 @@ button {
     .post .btn {
         padding: 0.4rem 0.9rem;
         margin-right: 0.5rem !important;
+    }
+
+    .avatar-edit-cont {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .file-name,
+    .progress-bar-cont {
+        margin-top: 16px;
+    }
+
+    .alert {
+        max-width: 60%;
+        right: 1.2em;
     }
 }

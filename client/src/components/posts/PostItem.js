@@ -52,13 +52,13 @@ const PostItem = ({
             ).length > 0
         ) {
             setLikeStyle({
-                backgroundColor: "#17a2b8",
+                backgroundColor: "#41b883",
                 color: "#fff",
                 border: "none",
             });
             setCountStyle({
-                color: "#17a2b8",
-                border: "#17a2b8 solid 1px",
+                color: "#41b883",
+                border: "#41b883 solid 1px",
             });
         } else {
             setLikeStyle({
