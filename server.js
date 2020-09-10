@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 
-const connectDB = require("./database/mongodb");
+const connectDB = require("./database/db");
 
 const app = express();
 const port = process.env.PORT || 5000;

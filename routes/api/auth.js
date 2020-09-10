@@ -82,17 +82,17 @@ router.post(
                         throw err;
                     }
 
-                    // // update the avatar
-                    // currentUser.avatar = gravatar.url(
-                    //     currentUser.email,
-                    //     {
-                    //         s: "200", // size of the avatar image
-                    //         r: "pg", // rating: pg -> no naked images
-                    //         d: "retro", // default image when no avatar is available
-                    //     },
-                    //     true
-                    // );
-                    // await currentUser.save();
+                    // update the avatar
+                    currentUser.avatar = gravatar.url(
+                        currentUser.email,
+                        {
+                            s: "200", // size of the avatar image
+                            r: "pg", // rating: pg -> no naked images
+                            d: "retro", // default image when no avatar is available
+                        },
+                        true
+                    );
+                    await currentUser.save();
 
                     res.json({ token: token });
                 }
