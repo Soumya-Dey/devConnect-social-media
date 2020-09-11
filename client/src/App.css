@@ -245,6 +245,7 @@ img {
     border-radius: 4px;
     word-wrap: normal;
     transition: all 0.2s ease;
+    z-index: 999;
 }
 
 .btn-outline {

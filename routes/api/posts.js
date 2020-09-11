@@ -66,7 +66,9 @@ router.get(
     async (req, res) => {
         try {
             // get all posts by the user
-            const specificPosts = await Post.find({ user: req.params.userId });
+            const specificPosts = await Post.find({
+                user: req.params.userId,
+            }).sort({ date: -1 });
 
             res.json(specificPosts);
         } catch (error) {
